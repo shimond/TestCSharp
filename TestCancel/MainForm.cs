@@ -26,11 +26,11 @@ namespace TestCancel
             AddToLog("btnStart_Click Started.");
             try
             {
-                await MethodA(_tokenSource.Token);
+                await Task.WhenAll(MethodA(_tokenSource.Token), MethodB(_tokenSource.Token));
             }
             catch (TaskCanceledException)
             {
-                AddToLog("MethodA Canceld.");
+                AddToLog("Methods Cancelled.");
             }
             AddToLog("btnStart_Click Finished.");
         }
@@ -41,6 +41,15 @@ namespace TestCancel
             {
                 await Task.Delay(2000, token);
                 AddToLog($"Method A {i}");
+            }
+        }
+
+        private async Task MethodB(CancellationToken token)
+        {
+            for (int i = 1; i <= 10; i++)
+            {
+                await Task.Delay(2000, token);
+                AddToLog($"Method B {i}");
             }
         }
 
