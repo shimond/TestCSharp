@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,6 +13,7 @@ namespace TestCancel
 {
     public partial class MainForm : Form
     {
+        private CancellationTokenSource _tokenSource;
         public MainForm()
         {
             InitializeComponent();
@@ -19,17 +21,25 @@ namespace TestCancel
 
         private async void btnStart_Click(object sender, EventArgs e)
         {
+            _tokenSource = new CancellationTokenSource();
             txtLogs.Clear();
             AddToLog("btnStart_Click Started.");
-            await MethodA();
+            try
+            {
+                await MethodA(_tokenSource.Token);
+            }
+            catch (TaskCanceledException)
+            {
+                AddToLog("MethodA Canceld.");
+            }
             AddToLog("btnStart_Click Finished.");
         }
 
-        private async Task MethodA()
+        private async Task MethodA(CancellationToken token)
         {
-            for (int i = 1; i <= 3; i++)
+            for (int i = 1; i <= 10; i++)
             {
-                await Task.Delay(2000);
+                await Task.Delay(2000, token);
                 AddToLog($"Method A {i}");
             }
         }
@@ -39,6 +49,9 @@ namespace TestCancel
             txtLogs.AppendText($"{str}{Environment.NewLine}");
         }
 
-
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            _tokenSource.Cancel();
+        }
     }
 }
