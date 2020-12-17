@@ -27,9 +27,9 @@ namespace DoITRight
 
         public BarrierWorkflowManager(string gateIP, string adServerIp)
         {
-            this._hpCardManager = new HpCardReader();
-            this._h1GateManager = new H1GateManager(gateIP);
-            this._adUserManager = new ActiveDirectoryManager(adServerIp);
+            _hpCardManager = new HpCardReader();
+            _h1GateManager = new H1GateManager(gateIP);
+            _adUserManager = new ActiveDirectoryManager(adServerIp);
         }
     }
 }
