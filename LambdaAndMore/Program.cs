@@ -7,7 +7,12 @@ namespace LambdaAndMore
     {
         static void Main(string[] args)
         {
-            // WhatIsTheOutput();
+            WhatIsTheOutput();
+            //UseUsing();
+        }
+
+        private static void UseUsing()
+        {
             using (StreamReader reader = new StreamReader("FILE_PATH"))
             {
                 // read from file
@@ -20,7 +25,8 @@ namespace LambdaAndMore
             List<Action> actions = new();
             for (int i = 0; i < 5; i++)
             {
-                actions.Add(() => Console.WriteLine($"Action {i}"));
+                var t = i;
+                actions.Add(() => Console.WriteLine($"Action {t}"));
             }
 
             foreach (var action in actions)

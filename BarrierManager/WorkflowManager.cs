@@ -8,7 +8,6 @@ namespace DoITRight
         private readonly HpCardReader _hpCardManager;
         private readonly H1GateManager _h1GateManager;
         private readonly ActiveDirectoryManager _adUserManager;
-
         public async Task StartFlow()
         {
             while (true)
